@@ -38,9 +38,10 @@ class ArtisteRepository extends ServiceEntityRepository
 
     public function listeArtistes():array
     {
-        return $this->createQueryBuilder('a')
-            ->leftJoin('a.albums', 'al')
-            ->addSelect('al')
+        return $this->createQueryBuilder('art')
+            ->select('art', 'a')
+            ->leftJoin('art.albums', 'a')
+            ->orderBy('art.nom', 'ASC')
             ->getQuery()
             ->getResult();
     }

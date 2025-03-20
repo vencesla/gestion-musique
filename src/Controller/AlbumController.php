@@ -3,17 +3,24 @@
 namespace App\Controller;
 
 use App\Repository\AlbumRepository;
+use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 class AlbumController extends AbstractController
 {
     #[Route('/albums', name: 'albums')]
-    public function listeAlbums(AlbumRepository $repo): Response
+    public function listeAlbums(AlbumRepository $repo, PaginatorInterface $paginator, Request $request): Response
     {
+        $albums = $paginator->paginate(
+            $repo->listeAlbumsComplete(), /* query NOT result */
+            $request->query->getInt('page', 1), /* page number */
+            9 /* limit per page */
+        );
         return $this->render('album/listeAlbums.html.twig', [
-            'albums' => $repo->findBy(['date' => '2006'], ['nom' => 'ASC'], 5),
+            'albums' => $albums
         ]);
     }
 

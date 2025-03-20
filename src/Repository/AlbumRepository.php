@@ -5,6 +5,7 @@ namespace App\Repository;
 use App\Entity\Album;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use Doctrine\ORM\Query;
 
 /**
  * @extends ServiceEntityRepository<Album>
@@ -21,20 +22,21 @@ class AlbumRepository extends ServiceEntityRepository
         parent::__construct($registry, Album::class);
     }
 
-//    /**
-//     * @return Album[] Returns an array of Album objects
-//     */
-//    public function findByExampleField($value): array
-//    {
-//        return $this->createQueryBuilder('a')
-//            ->andWhere('a.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->orderBy('a.id', 'ASC')
-//            ->setMaxResults(10)
-//            ->getQuery()
-//            ->getResult()
-//        ;
-//    }
+    /**
+     * Liste des albums
+     * @return Query Returns an array of Album objects
+     */
+    public function listeAlbumsComplete(): ?Query
+    {
+        return $this->createQueryBuilder('a')
+            ->select('a','s', 'art', 'm')
+            ->innerJoin('a.styles', 's')
+            ->innerJoin('a.artiste', 'art')
+            ->innerJoin('a.morceaux', 'm')
+            ->orderBy('a.nom', 'ASC')
+            ->getQuery()
+        ;
+    }
 
 //    public function findOneBySomeField($value): ?Album
 //    {
