@@ -1,0 +1,51 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Les albums{% endblock %}
+
+{% block body %}
+    <h1 class="pt-2 text-center">Liste des albums</h1>
+    <hr>
+    <div class="row pt-2">
+    {% for album in albums %}
+        <div class="col-sm-12 col-md-12 col-lg-4 col-xl-4">
+                <div class="card border-primary mb-3 mx-auto" style="max-width: 20rem;">
+                <h5 class="card-header"><a class="text-decoration-none" href="{{ path('album', {'id' : album.id}) }}">{{ album.nom }}</a></h5>
+                <div class="card-body">
+                    <h5 class="card-title">
+                        <a href="{{path('artiste', {'id': album.artiste.id})}}" class="badge bg-success text-decoration-none">{{album.artiste.nom}}</a>
+                    </h5>
+                    <img class="avatar mx-auto d-block" style="height:auto; width: 150px; display:block;" src="{{album.image}}" alt="{{album.nom}}">
+                </div>
+                <div class="card-body">
+                    <p class="card-text">{{album.date}}</p>
+                </div>
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item">
+                        {% set couleurs = {
+                            'gris': 'gray',
+                            'noir': 'black',
+                            'argenté': 'silver',
+                            'marron': 'brown',
+                            'marine': 'navy',
+                            'turquoise': 'turquoise',
+                            'violet': 'purple',
+                            'olive': 'olive',
+                            'bleu': 'blue',
+                            'blanc': 'orange',
+                            'vert': 'green',
+                            'citron': '#CCA707',
+                            'jaune': '#B8860B',
+                            'fuchsia': '#FF00FF'
+                             } %}
+                        {% for style in album.styles %}
+                            <span class="badge" style="background-color: {{couleurs[style.couleur]}};">{{style.nom}}</span>
+                        {% endfor %}
+                    </li>
+                    {% set nb = album.morceaux|length %}
+                    <li class="list-group-item">{{nb}}{% if nb > 1 %} morceaux {% else %} morceau{% endif %}</li>
+                </ul>
+            </div>
+        </div>
+    {% endfor %}
+    </div>
+{% endblock %}

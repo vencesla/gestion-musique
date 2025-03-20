@@ -1,0 +1,11 @@
+.avatar{
+    border-radius: 50%;
+}
+.miniature {
+    max-width: 80px;
+    height: auto;
+}
+
+.container {
+    max-width: 1049px;
+}

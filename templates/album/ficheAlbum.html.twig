@@ -1,0 +1,74 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Album{% endblock %}
+
+{% block body %}
+    <h1 class="pt-2 text-center">Fiche album</h1>
+    <hr>
+        <div class="row pt-2">
+            <div class="card border-primary mb-3">
+                <h3 class="card-header text-info">{{ album.nom }}</h3>
+                <div class="row">
+                    <div class="col-3 d-flex align-items-center mx-auto">
+                        <img class="avatar mx-auto d-block" style="height:auto; width: 150px; display:block;" src="{{album.image}}" alt="{{album.nom}}">
+                    </div>
+                    <div class="col">
+                        <div class="card-body">
+                            <h5>
+                                <a class="badge bg-success text-decoration-none">
+                                    {{album.artiste.nom}}
+                                </a>
+                                <p class="card-text">{{ album.date }}</p>
+                            </h5>
+                        </div>
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item">
+                                {% set couleurs = {
+                            'gris': 'gray',
+                            'noir': 'black',
+                            'argenté': 'silver',
+                            'marron': 'brown',
+                            'marine': 'navy',
+                            'turquoise': 'turquoise',
+                            'violet': 'purple',
+                            'olive': 'olive',
+                            'bleu': 'blue',
+                            'blanc': 'orange',
+                            'vert': 'green',
+                            'citron': '#CCA707',
+                            'jaune': '#B8860B',
+                            'fuchsia': '#FF00FF'
+                             } %}
+                                {% for style in album.styles %}
+                                    <span class="badge" style="background-color: {{couleurs[style.couleur]}};">{{style.nom}}</span>
+                                {% endfor %}
+                            </li>
+                            {% set nb = album.morceaux|length %}
+                            <li class="list-group-item">{{nb}}{% if nb > 1 %} morceaux {% else %} morceau{% endif %}</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <table class="table table-hover mx-auto">
+            <thead>
+                <tr>
+                <th scope="col-3">Piste</th>
+                <th scope="col-4">titre</th>
+                <th scope="col-1">Durée</th>
+                <th scope="col-3">Note</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for morceau in album.morceaux %}
+                <tr class="table-default">
+                <td>{{morceau.piste}}</td>
+                <td scope="row">{{morceau.titre}}</td>
+                <td>{{morceau.duree}}</td>
+                <td></td>
+                </tr>
+                {% endfor %}
+            </tbody>
+            </table>
+            
+{% endblock %}

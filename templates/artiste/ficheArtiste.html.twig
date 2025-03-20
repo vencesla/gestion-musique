@@ -1,0 +1,72 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Artiste{% endblock %}
+
+{% block body %}
+    <h1 class="pt-2 text-center">Fiche Artiste</h1>
+    <hr>
+        <div class="row pt-2">
+            {% set nbAlbums = artiste.albums|length %}
+            <div class="card border-primary mb-3">
+                <h3 class="card-header text-info">{{ artiste.nom }}</h3>
+                <div class="row">
+                    <div class="col-3 d-flex align-items-center mx-auto">
+                        <img class="avatar mx-auto d-block" style="height:auto; width: 150px; display:block;" src="{{artiste.image}}" alt="{{artiste.nom}}">
+                    </div>
+                    <div class="col">
+                        <div class="card-body">
+                            <a class="badge bg-success text-decoration-none">
+                            {% if nbAlbums > 1 %} {{ nbAlbums}} albums{% else %}{{ nbAlbums}} album{% endif %}
+                            </a>
+                            <p class="card-text">{{ artiste.description|raw }}</p>
+                        </div>
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item">{% if artiste.type == 0 %} Artiste solo {% else %} Groupe {% endif %}</li>
+                            <li class="list-group-item"><a class="text-decoration-none" href="{{artiste.site}}">Son site web</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <table class="table table-hover mx-auto">
+            <thead>
+                <tr>
+                <th scope="col-3">Photo</th>
+                <th scope="col-4">Nom</th>
+                <th scope="col-1">Date</th>
+                <th scope="col-3">Styles</th>
+                <th scope="col-3">Morceaux</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for album in artiste.albums %}
+                <tr class="table-default">
+                <td><img class="miniature" src="{{album.image}}" alt="{{album.nom}}"/></td>
+                <td scope="row">{{album.nom}}</td>
+                <td>{{album.date}}</td>
+                <td>
+                    {% set couleurs = {
+                        'gris': 'gray',
+                        'noir': 'black',
+                        'argenté': 'silver',
+                        'marron': 'brown',
+                        'marine': 'navy',
+                        'turquoise': 'turquoise',
+                        'violet': 'purple',
+                        'olive': 'olive',
+                        'bleu': 'blue',
+                        'fuchsia': '#FF00FF',
+                        'blanc': 'gray',
+                        'citron': '#CCA707',
+                        'jaune': '#B8860B'
+                    } %}
+                    {% for style in album.styles %}
+                        <span class="badge" style="background-color: {{couleurs[style.couleur]}};">{{style.nom}}</span>
+                    {% endfor %}
+                </td>
+                <td>{{album.morceaux|length}}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+            </table>
+{% endblock %}
