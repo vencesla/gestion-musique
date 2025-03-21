@@ -36,13 +36,14 @@ class StyleRepository extends ServiceEntityRepository
 //        ;
 //    }
 
-//    public function findOneBySomeField($value): ?Style
-//    {
-//        return $this->createQueryBuilder('s')
-//            ->andWhere('s.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->getQuery()
-//            ->getOneOrNullResult()
-//        ;
-//    }
+    public function listeStylesComplete(): array
+    {
+        return $this->createQueryBuilder('s')
+            ->select('s','alb')
+            ->leftJoin('s.albums', 'alb')
+            ->orderBy('s.nom', 'ASC')
+            ->getQuery()
+            ->getResult()
+        ;
+    }
 }

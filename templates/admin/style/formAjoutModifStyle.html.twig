@@ -1,0 +1,34 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Admin - ajout artiste {% endblock %}
+
+{% block body %}
+<h1 class="text-center mt-3 text-info">
+    {% if app.request.attributes.get('_route') == 'admin_style_ajout' %} 
+        Ajout
+    {% else %}
+        Modification
+    {% endif %}
+        d'un style</h1>
+{{ form_start(formStyle, {'attr':{'novalidate':'novalidate'}}) }}
+<div class="row">
+   <div class="col-8"> {{form_row(formStyle.nom, {'label': 'Nom du style'})}} </div>
+   <div class="col-4 style-input">{{form_row(formStyle.couleur, {'label': 'Couleur associé au style'})}}</div>
+</div>
+<div class="row">
+    <div class="col">
+        <a class="btn btn-warning d-block text-white" href="{{path('admin_styles')}}">Annuler</a>
+    </div>
+    <div class="col">
+        <button type="submit" class="btn btn-success w-100">
+            {% if app.request.attributes.get('_route') == 'admin_style_ajout' %}
+                Ajouter style
+            {% else %}
+                Modifier style
+            {% endif %}
+        </button>
+    </div>
+</div>
+
+{{ form_end(formStyle) }}
+{% endblock %}

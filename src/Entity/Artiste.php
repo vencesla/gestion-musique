@@ -6,8 +6,20 @@ use App\Repository\ArtisteRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Mime\Message;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: ArtisteRepository::class)]
+#[UniqueEntity(
+    fields: ['nom'],
+    message:"Le nom de l'artiste est déjà utilisé dans la base.",
+)]
+#[UniqueEntity(
+    fields: ['site'],
+    message:"Le nom du site est déjà utilisé dans la base.",
+)]
+
 class Artiste
 {
     #[ORM\Id]
@@ -16,12 +28,27 @@ class Artiste
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\NotBlank(message:"Le nom est obligatoire")]
+    #[Assert\Length(
+        min: 2,
+        max: 30,
+        minMessage: "La nom doit comporter au minimum {{ limit }}",
+        maxMessage: "Le nom doit comporter aux maximum {{ limit }}"
+    )]
     private ?string $nom = null;
 
     #[ORM\Column(type: 'text')]
+    #[Assert\NotBlank(message:"La description est obligatoire")]
+    #[Assert\Length(
+        min: 10,
+        max: 100,
+        minMessage: "La description doit comporter au minimum {{ limit }}",
+        maxMessage: "La description doi comporter aux maximum {{ limit }}"
+    )]
     private ?string $description = null;
 
     #[ORM\Column(length: 255, nullable: true)]
+    #[Assert\Url(message:"L'url de votre site n'est pas valide")]
     private ?string $site = null;
 
     #[ORM\Column(length: 255, nullable: true)]

@@ -23,24 +23,8 @@
                         </div>
                         <ul class="list-group list-group-flush">
                             <li class="list-group-item">
-                                {% set couleurs = {
-                            'gris': 'gray',
-                            'noir': 'black',
-                            'argenté': 'silver',
-                            'marron': 'brown',
-                            'marine': 'navy',
-                            'turquoise': 'turquoise',
-                            'violet': 'purple',
-                            'olive': 'olive',
-                            'bleu': 'blue',
-                            'blanc': 'orange',
-                            'vert': 'green',
-                            'citron': '#CCA707',
-                            'jaune': '#B8860B',
-                            'fuchsia': '#FF00FF'
-                             } %}
                                 {% for style in album.styles %}
-                                    <span class="badge" style="background-color: {{couleurs[style.couleur]}};">{{style.nom}}</span>
+                                    <span class="badge" style="background-color: {{style.couleur}};">{{style.nom}}</span>
                                 {% endfor %}
                             </li>
                             {% set nb = album.morceaux|length %}
