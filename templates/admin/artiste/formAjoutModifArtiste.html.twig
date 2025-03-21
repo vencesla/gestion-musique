@@ -1,9 +1,15 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Admin - gestion des artistes {% endblock %}
+{% block title %}Admin - ajout artiste {% endblock %}
 
 {% block body %}
-<h1 class="text-center pt-3 text-info">Ajout d'un artiste</h1>
+<h1 class="text-center pt-3 text-info">
+    {% if app.request.attributes.get('_route') == 'admin_artiste_ajout' %} 
+        Ajout
+    {% else %}
+        Modification
+    {% endif %}
+        d'un artiste</h1>
 {{ form_start(formArtiste) }}
 
 {{form_row(formArtiste.nom)}}
@@ -19,7 +25,13 @@
         <a class="btn btn-warning d-block text-white" href="{{path('admin_artistes')}}">Annuler</a>
     </div>
     <div class="col">
-        <button type="submit" class="btn btn-success w-100">Valider</button>
+        <button type="submit" class="btn btn-success w-100">
+            {% if app.request.attributes.get('_route') == 'admin_artiste_ajout' %}
+                Ajouter l'artiste
+            {% else %}
+                Modifier l'artiste
+            {% endif %}
+        </button>
     </div>
 </div>
 

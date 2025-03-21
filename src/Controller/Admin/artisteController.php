@@ -27,10 +27,17 @@ class artisteController extends AbstractController
         ]);
     }
 
+    #[Route('/admin/artiste/modif/{id}', name: 'admin_artiste_modif', methods:['GET', 'POST'])]
     #[Route('/admin/artiste/ajout', name: 'admin_artiste_ajout', methods:['GET', 'POST'])]
-    public function ajoutArtiste(Request $request, EntityManagerInterface $manager): Response
+    public function ajoutModifArtiste(int $id = null, ArtisteRepository $repo, Request $request, EntityManagerInterface $manager): Response
     {
-        $artiste = new Artiste();
+        if($id == null){
+            $artiste = new Artiste();
+            $mode = "ajouté";
+        }else{
+            $mode = "modifié";
+            $artiste = $repo->find($id);
+        }
         $form = $this->createForm(ArtisteType::class, $artiste);
         $form->handleRequest($request);
         if($form->isSubmitted() && $form->isValid())
@@ -40,8 +47,43 @@ class artisteController extends AbstractController
             $this->addFlash('success', "L'artsite a bien été ajouté");
             return $this->redirectToRoute('admin_artistes');
         }
-        return $this->render('admin/artiste/ajoutArtiste.html.twig',[
+        return $this->render('admin/artiste/formAjoutModifArtiste.html.twig',[
             'formArtiste' => $form->createView() 
         ]);
     }
+
+    #[Route('/admin/artiste/deletid}e/{id}', name: 'admin_artiste_suppression', methods:['GET'])]
+    public function suppressionArtiste(int $id, ArtisteRepository $repo,EntityManagerInterface $manager): Response
+    {
+     
+        $artiste = $repo->find($id);
+        $nbAlbums = $artiste->getAlbums()->count();
+        if($nbAlbums > 0){
+            $this->addFlash('danger', "Vous ne pouvez pas supprimer cet article car $nbAlbums album(s) y sont associés");
+        }else{
+            $manager->remove($artiste);
+            $manager->flush();
+            $this->addFlash('success', "L'artsite a bien été supprimé");
+        }
+        
+        return $this->redirectToRoute('admin_artistes');
+    }
+
+    // #[Route('/admin/artiste/modif/{id}', name: 'admin_artiste_modif', methods:['GET', 'POST'])]
+    // public function modifArtiste(int $id,ArtisteRepository $repo, Request $request, EntityManagerInterface $manager): Response
+    // {
+    //     $artiste = $repo->find($id) ;
+    //     $form = $this->createForm(ArtisteType::class, $artiste);
+    //     $form->handleRequest($request);
+    //     if($form->isSubmitted() && $form->isValid())
+    //     {
+    //         $manager->persist($artiste);
+    //         $manager->flush();
+    //         $this->addFlash('success', "L'artsite a bien été modifié");
+    //         return $this->redirectToRoute('admin_artistes');
+    //     }
+    //     return $this->render('admin/artiste/formModifArtiste.html.twig',[
+    //         'formArtiste' => $form->createView() 
+    //     ]);
+    // }
 }

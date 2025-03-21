@@ -1,0 +1,33 @@
+<div id="modalSimple" class="modal">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Modal title</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true"></span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p>Modal body text goes here.</p>
+      </div>
+      <div class="modal-footer">
+        <a id="btn-action" href="" class="btn btn-success text-white">Suprrimer</a>
+        <button type="button" class="btn bg-warning text-white" data-bs-dismiss="modal">Annuler</button>
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+  $("a[data-lien]").click(function(){
+    // on récupère tous les éléments de la balise a
+    let lien = $(this).attr("data-lien");
+    let titre = $(this).attr("data-titre");
+    let message = $(this).attr("data-message");
+    let libellebuton = $(this).attr("data-libellebouton");
+    // on affcete les élements à la modale
+    $("#btn-action").attr("href", lien);
+    $("#btn-action").text(libellebuton);
+    $(".modal-title").text(titre);
+    $(".modal-body").text(message);
+  })
+</script>

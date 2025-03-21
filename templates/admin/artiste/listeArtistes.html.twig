@@ -10,7 +10,7 @@
         <table class="table table-hover mx-auto">
         <thead>
             <tr>
-            <th scope="col-1"><th>
+            <th scope="col-1"></th>
             <th scope="col-2">Nom</th>
             <th scope="col-7">Détail</th>
             <th scope="col-2">Actions</th>
@@ -33,10 +33,15 @@
                 </p>
             </td>
             <td class="col-2">
-                <a class="btn btn-primary" href="#"><i class="fas fa-pen" title="Modifier"></i></a>
-                <a type="button" href="#" class="btn btn-danger"  data-bs-toggle="modalSimple" data-bs-target="#exampleModal">
-                    <i class="fas fa-trash" title="Modifier"></i>
-                </a>
+                <a class="btn btn-primary" href="{{path('admin_artiste_modif', {'id': artiste.id})}}"><i class="fas fa-pen" title="Modifier"></i></a>
+                <a class="btn btn-danger"
+                    data-bs-toggle="modal" 
+                    data-bs-target="#modalSimple"
+                    data-titre = "Suppression d'un artiste"
+                    data-message="Etes vous sûr de vouloir supprimer l'artiste : {{artiste.nom}}"
+                    data-libellebouton="Supprimer l'artiste"
+                    data-lien="{{path('admin_artiste_suppression', {'id' : artiste.id})}}"
+                    ><i class="fas fa-trash" title="Modifier"></i></a>
             </td>
             </tr>
         {% endfor %}
@@ -47,4 +52,7 @@
         {{ knp_pagination_render(artistes) }}
     </div>
     </div>
+{% endblock %}
+{% block javascripts %}
+    {% include "include/_modale.html.twig" %}
 {% endblock %}
