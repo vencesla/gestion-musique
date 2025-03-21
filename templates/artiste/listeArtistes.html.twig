@@ -7,14 +7,14 @@
     <hr>
     <div class="row pt-2">
     {% for artiste in artistes %}
-        {% set nbAlbums = artiste.albums|length %}
+        {% set nb = artiste.albums|length %}
         <div class="col-sm-12 col-md-12 col-lg-4 col-xl-4">
                 <div class="card border-primary mb-3 mx-auto" style="max-width: 20rem;">
                 <h5 class="card-header"><a class="text-decoration-none" href="{{ path('artiste', {'id' : artiste.id}) }}">{{ artiste.nom }}</a></h5>
                 <div class="card-body">
                     <h5 class="card-title">
                         <a class="badge bg-success text-decoration-none">
-                            {% if nbAlbums > 1 %} {{ nbAlbums}} albums{% else %}{{ nbAlbums}} album{% endif %}
+                            {{nb}}{% if nb > 1 %} albums{% else %} album{% endif %}
                         </a>
                     </h5>
                     <img class="avatar mx-auto d-block" style="height:auto; width: 150px; display:block;" src="{{artiste.image}}" alt="{{artiste.nom}}">

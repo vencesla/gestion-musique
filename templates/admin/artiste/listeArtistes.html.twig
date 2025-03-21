@@ -1,0 +1,50 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Admin - gestion des artistes {% endblock %}
+
+{% block body %}
+    <h1 class="mt-3 text-center text-info">Gestion des artistes</h1>
+    <a href="{{ path('admin_artiste_ajout')}}" class="btn btn-sm btn-success">Ajouter un artiste</a>
+    <hr>
+    <div class="row pt-2">
+        <table class="table table-hover mx-auto">
+        <thead>
+            <tr>
+            <th scope="col-1"><th>
+            <th scope="col-2">Nom</th>
+            <th scope="col-7">Détail</th>
+            <th scope="col-2">Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for artiste in artistes %}
+            {% set nb = artiste.albums|length %}
+            <tr>
+            <td class="col-1"><img class="miniature avatar mx-auto d-block" style="height:auto; width: 150px; display:block;" src="{{artiste.image}}" alt="{{artiste.nom}}"></td>
+            <td class="col-2">{{artiste.nom}}</td>
+            <td class="col-7">
+                <p class="d-flex flex-row">
+                    <span class="align-self-center badge bg-success">{{nb}}{% if nb > 1 %} albums{% else %} album{% endif %}</span>
+                    <span class="align-self-center mx-3">{% if artiste.type == 0 %} Artiste solo {% else %} Groupe {% endif %}</span>
+                    <span class="align-self-center ml-auto">{{artiste.site}}</span>
+                </p>
+                <p>
+                    {{artiste.description|u.truncate(100, '...')|raw}}
+                </p>
+            </td>
+            <td class="col-2">
+                <a class="btn btn-primary" href="#"><i class="fas fa-pen" title="Modifier"></i></a>
+                <a type="button" href="#" class="btn btn-danger"  data-bs-toggle="modalSimple" data-bs-target="#exampleModal">
+                    <i class="fas fa-trash" title="Modifier"></i>
+                </a>
+            </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+        <table>
+        {# display navigation #}
+    <div class="navigation d-flex justify-content-center">
+        {{ knp_pagination_render(artistes) }}
+    </div>
+    </div>
+{% endblock %}

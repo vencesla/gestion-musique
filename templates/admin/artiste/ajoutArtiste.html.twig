@@ -1,0 +1,27 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Admin - gestion des artistes {% endblock %}
+
+{% block body %}
+<h1 class="text-center pt-3 text-info">Ajout d'un artiste</h1>
+{{ form_start(formArtiste) }}
+
+{{form_row(formArtiste.nom)}}
+{{form_row(formArtiste.description)}}
+<div class="row">
+   <div class="col"> {{form_row(formArtiste.site)}} </div>
+    <div class="col">{{form_row(formArtiste.type)}}</div>
+</div>
+{{form_row(formArtiste.image)}}
+
+<div class="row">
+    <div class="col">
+        <a class="btn btn-warning d-block text-white" href="{{path('admin_artistes')}}">Annuler</a>
+    </div>
+    <div class="col">
+        <button type="submit" class="btn btn-success w-100">Valider</button>
+    </div>
+</div>
+
+{{form_end(formArtiste)}}
+{% endblock %}
