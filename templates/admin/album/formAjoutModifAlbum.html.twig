@@ -1,0 +1,57 @@
+{% extends 'base.html.twig' %}
+    {% block stylesheets %}
+        <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    {% endblock %}
+
+{% block title %}Admin - 
+    {% if app.request.attributes.get('_route') == 'admin_album_ajout' %} 
+        Ajout
+    {% else %}
+        Modification
+    {% endif %}
+        d'un album
+{% endblock %}
+
+{% block body %}
+<h1 class="text-center mt-3 text-info">
+    {% if app.request.attributes.get('_route') == 'admin_album_ajout' %} 
+        Ajout
+    {% else %}
+        Modification
+    {% endif %}
+        d'un style</h1>
+{{ form_start(formAlbum) }}
+<div class="row">
+   <div class="col-6"> {{form_row(formAlbum.nom)}} </div>
+   <div class="col-6">{{form_row(formAlbum.image)}}</div>
+</div>
+<div class="row">
+   <div class="col-4"> {{form_row(formAlbum.date)}} </div>
+   <div class="col-4">{{form_row(formAlbum.artiste)}}</div>
+   <div class="col-4">{{form_row(formAlbum.styles)}}</div>
+</div>
+<div class="row">
+    <div class="col">
+        <a class="btn btn-warning d-block text-white" href="{{path('admin_albums')}}">Annuler</a>
+    </div>
+    <div class="col">
+        <button type="submit" class="btn btn-success w-100">
+            {% if app.request.attributes.get('_route') == 'admin_album_ajout' %}
+                Ajouter album
+            {% else %}
+                Modifier album
+            {% endif %}
+        </button>
+    </div>
+</div>
+
+{{ form_end(formAlbum) }}
+{% endblock %}
+{% block javascripts %}
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $('.SelectStyles').select2();
+        });
+    </script>
+{% endblock %}
