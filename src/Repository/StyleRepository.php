@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Entity\Style;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\QueryBuilder;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -44,6 +45,17 @@ class StyleRepository extends ServiceEntityRepository
             ->orderBy('s.nom', 'ASC')
             ->getQuery()
             ->getResult()
+        ;
+    }
+
+    /**
+     * Summary of styleListeSimple
+     * @return QueryBuilder
+     */
+    public function styleListeSimple(): QueryBuilder
+    {
+        return $this->createQueryBuilder('s')
+            ->orderBy('s.nom', 'ASC');
         ;
     }
 }

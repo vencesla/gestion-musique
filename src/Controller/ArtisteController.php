@@ -21,8 +21,8 @@ class ArtisteController extends AbstractController
         ]);
     }
 
-    #[Route('/artiste/{id}', name: 'artiste', methods:['GET'])]
-    public function ficheArtiste(int $id, ArtisteRepository $repo): Response
+    #[Route('/artiste/fiche/{id}', name: 'artiste', methods:['GET'])]
+    public function ficheArtiste(int $id, ArtisteRepository $repo,EntityManagerInterface $manager): Response
     {
         return $this->render('artiste/ficheArtiste.html.twig', [
             'artiste' => $repo->find($id)

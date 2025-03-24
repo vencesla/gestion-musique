@@ -9,7 +9,6 @@
         <link rel="stylesheet" href="{{ asset('css/app.css') }}">
         {# Run `composer require symfony/webpack-encore-bundle` to start using Symfony UX #}
         {% block stylesheets %}
-            {{ encore_entry_link_tags('app') }}
         {% endblock %}
 
     </head>
@@ -40,6 +39,8 @@
                             <a class="dropdown-item" href="{{path('admin_artistes')}}">Gestion des artistes</a>
                             <div class="dropdown-divider"></div>
                             <a class="dropdown-item" href="{{path('admin_styles')}}">Gestion des styles</a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" href="{{path('admin_albums')}}">Gestion des albums</a>
                         </div>
                     </li>
                 </ul>
