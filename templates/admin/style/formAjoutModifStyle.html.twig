@@ -1,6 +1,13 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Admin - ajout artiste {% endblock %}
+{% block title %}Admin - 
+    {% if app.request.attributes.get('_route') == 'admin_style_ajout' %} 
+        Ajout
+    {% else %}
+        Modification
+    {% endif %}
+        d'un style
+{% endblock %}
 
 {% block body %}
 <h1 class="text-center mt-3 text-info">
@@ -10,10 +17,10 @@
         Modification
     {% endif %}
         d'un style</h1>
-{{ form_start(formStyle, {'attr':{'novalidate':'novalidate'}}) }}
+{{ form_start(formStyle) }}
 <div class="row">
-   <div class="col-8"> {{form_row(formStyle.nom, {'label': 'Nom du style'})}} </div>
-   <div class="col-4 style-input">{{form_row(formStyle.couleur, {'label': 'Couleur associé au style'})}}</div>
+   <div class="col-8"> {{form_row(formStyle.nom)}} </div>
+   <div class="col-4 style-input">{{form_row(formStyle.couleur)}}</div>
 </div>
 <div class="row">
     <div class="col">

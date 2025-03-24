@@ -14,8 +14,17 @@ class StyleType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('nom', TextType::class)
-            ->add('couleur', ColorType::class)
+            ->add('nom', TextType::class, [
+                'required' => false,
+                'label' => "Nom du style",
+                'attr' => [
+                    'placeholder' => 'Saisir le nom du style'
+                ]
+            ])
+            ->add('couleur', ColorType::class,[
+                'required' => false,
+                'label' => "Couleur associé au style"
+            ])
         ;
     }
 

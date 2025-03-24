@@ -9,12 +9,6 @@
 .container {
     max-width: 1049px;
 }
-
-.style-bage {
-    width: 35px;
-    height: 20px;
-    border-radius: 5px;
-}
 .style-input #style_couleur{
  width: 100%;
 }

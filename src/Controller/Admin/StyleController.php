@@ -6,6 +6,7 @@ use App\Entity\Style;
 use App\Form\StyleType;
 use App\Repository\StyleRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -14,16 +15,21 @@ use Symfony\Component\Routing\Annotation\Route;
 class StyleController extends AbstractController
 {
     #[Route('/admin/styles', name: 'admin_styles', methods:['GET'])]
-    public function listeStyles(StyleRepository $repo): Response
+    public function listeStyles(StyleRepository $repo,PaginatorInterface $paginator, Request $request): Response
     {
+        $styles = $paginator->paginate(
+            $repo->listeStylesComplete(),
+            $request->query->getInt('page', 1),
+            9
+        );
         return $this->render('admin/style/listeStyles.html.twig', [
-            'styles' => $repo->listeStylesComplete(),
+            'styles' => $styles,
         ]);
     }
 
     #[Route('/admin/style/ajout', name: 'admin_style_ajout', methods:['GET', 'POST'])]
     #[Route('/admin/style/modif/{id}', name: 'admin_style_modif', methods:['GET', 'POST'])]
-    public function ajoutStyle(int $id = null,StyleRepository $repo, Request $request, EntityManagerInterface $manager): Response
+    public function ajoutStyle(int|null $id,StyleRepository $repo, Request $request, EntityManagerInterface $manager): Response
     {
         if($id == null){
             $mode = "ajouté";

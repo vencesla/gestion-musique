@@ -19,8 +19,8 @@
         <tbody>
             {% for style in styles %}
             <tr>
-            <td class="col-2">
-                <div class="style-bage" style="background-color: {{style.couleur}};"></div>
+            <td class="col-3">
+                <span class="badge style-badge" style="display: inline-block; width:25px;height:15px;background-color: {{style.couleur}};"></span>
             </td>
             <td class="col-2">{{style.nom}}</td>
             <td class="col-5">
@@ -44,6 +44,9 @@
         {% endfor %}
         </tbody>
         </table>
+        <div class="navigation d-flex justify-content-center">
+        {{ knp_pagination_render(styles) }}
+        </div>
     </div>
 {% endblock %}
 {% block javascripts %}
