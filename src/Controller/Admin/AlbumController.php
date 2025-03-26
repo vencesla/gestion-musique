@@ -42,6 +42,19 @@ class AlbumController extends AbstractController
         $form->handleRequest($request);
         if($form->isSubmitted() && $form->isValid())
         {
+             // On récupère l'image sélectionnée
+            $fichierImage = $form->get('imageFile')->getData();
+            if($fichierImage != null){
+                // On supprime l'ancien fichier
+                if($album->getImage() != 'pochettevierge.png'){
+                    \unlink(filename: $this->getParameter('imagesAlbumsDestination' ).$album->getImage());
+                }
+                // On crée le nom du nouveau fichier
+                $fichier = md5(\uniqid()).".".$fichierImage->getExtension();
+                // On déplace le fichier dans le dossier public
+                $fichierImage->move($this->getParameter('imagesAlbumsDestination'), $fichier);
+                $album->setImage($fichier);
+            }
             $manager->persist($album);
             $manager->flush();
             $this->addFlash('success', "L'album a bien été $mode");

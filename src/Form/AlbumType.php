@@ -9,10 +9,14 @@ use App\Repository\ArtisteRepository;
 use App\Repository\StyleRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\CollectionType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
+use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Constraints\Image;
 
 class AlbumType extends AbstractType
 {
@@ -30,10 +34,28 @@ class AlbumType extends AbstractType
                 'required' => false,
                 'label' => "Année de l'album"
             ])
-            ->add('image', TextType::class,[
-                'label' => 'Image',
-                'required' => false
-                ])
+            ->add('imageFile', FileType::class, [
+                'mapped' => false,
+                'required' => false,
+                'label' => "Charger la pochette",
+                'attr' => [
+                    'accept' => ".jpg,.png"
+                ],
+                'row_attr' =>[
+                    'class' => "d-none"
+                ],
+                'constraints' => [
+                        new Image([
+                            'maxSize' => '4k',
+                            'maxSizeMessage' => "La taille maximum doit être de 4ko",
+                            'mimeTypes' => [
+                                'image/jpeg',
+                                'image/png'
+                            ]
+                        ])
+                ]
+            ])
+            ->add('image', HiddenType::class)
             ->add('artiste', EntityType::class,[
                 'label' => "Nom de l'artiste",
                 'class' => Artiste::class,
@@ -61,6 +83,13 @@ class AlbumType extends AbstractType
                 ]
 
             ] )
+            ->add("morceaux", CollectionType::class, [
+                'entry_type' => MorceauType::class,
+                'label' => false,
+                'allow_add' => true,
+                'allow_delete' => true,
+                'by_reference' => false
+            ])
         ;
     }
 

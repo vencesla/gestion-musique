@@ -21,7 +21,7 @@
         <tbody>
             {% for album in albums %}
             <tr>
-            <td class="col-1"><img class="miniature avatar mx-auto d-block" style="height:auto; width: 150px; display:block;" src="{{album.image}}" alt="{{album.nom}}"></td>
+            <td class="col-1"><img class="miniature avatar mx-auto d-block" style="height:auto; width: 150px; display:block;" src="{{asset("images/albums/" ~ album.image)}}" alt="{{album.nom}}"></td>
             <td class="col-2">{{album.nom}}</td>
             <td class="col-2">{{album.artiste.nom}}</td>
             <td class="col-3">

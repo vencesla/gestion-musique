@@ -48,17 +48,22 @@ class Album
     #[Assert\NotBlank(message: "Le nom de l'artiste est obligatoire")]
     private ?Artiste $artiste = null;
 
-    #[ORM\OneToMany(mappedBy: 'album', targetEntity: Morceau::class)]
+    #[ORM\OneToMany(mappedBy: 'album', targetEntity: Morceau::class, cascade:["persist"], orphanRemoval:true)]
     private Collection $morceaux;
 
     #[ORM\ManyToMany(targetEntity: Style::class, mappedBy: 'albums')]
     #[Assert\Count(min:1, minMessage: "Veillez sectionner un style où plus")]
     private Collection $styles;
 
+    #[ORM\Column]
+    private ?\DateTimeImmutable $updatedAt = null;
+
     public function __construct()
     {
         $this->morceaux = new ArrayCollection();
         $this->styles = new ArrayCollection();
+        $this->setUpdatedAt(new \DateTimeImmutable);
+        $this->setImage("pochettevierge.png");
     }
 
     public function getId(): ?int
@@ -172,6 +177,18 @@ class Album
         if ($this->styles->removeElement($style)) {
             $style->removeAlbum($this);
         }
+
+        return $this;
+    }
+
+    public function getUpdatedAt(): ?\DateTimeImmutable
+    {
+        return $this->updatedAt;
+    }
+
+    public function setUpdatedAt(\DateTimeImmutable $updatedAt): static
+    {
+        $this->updatedAt = $updatedAt;
 
         return $this;
     }

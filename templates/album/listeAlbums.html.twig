@@ -14,7 +14,7 @@
                     <h5 class="card-title">
                         <a href="{{path('artiste', {'id': album.artiste.id})}}" class="badge bg-success text-decoration-none">{{album.artiste.nom}}</a>
                     </h5>
-                    <img class="avatar mx-auto d-block" style="height:auto; width: 150px; display:block;" src="{{album.image}}" alt="{{album.nom}}">
+                    <img class="avatar mx-auto d-block" style="height:auto; width: 150px; display:block;" src="{{asset("images/albums/" ~ album.image)}}" alt="{{album.nom}}">
                 </div>
                 <div class="card-body">
                     <p class="card-text">{{album.date}}</p>

@@ -45,7 +45,6 @@ class AppFixtures extends Fixture
             $album->setId(intval($value[0]))
                 ->setNom($value[1])
                 ->setDate(intval($value[2]))
-                ->setImage("https://picsum.photos/640/480?random=" . $value[0])
                 ->addStyle($this->getReference('style'.$value[3]))
                 ->setArtiste($this->getReference("artiste".$value[4]));
             $manager->persist($album);
