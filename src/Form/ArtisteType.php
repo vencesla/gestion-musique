@@ -23,7 +23,9 @@ class ArtisteType extends AbstractType
                     "placeholder" => "Saisir le nom de l'artiste"
                 ]
             ])
-            ->add('description', TextareaType::class)
+            ->add('description', TextareaType::class, [
+                'attr' => ['class' => 'ckeditor'],
+            ])
             ->add('site', UrlType::class)
             ->add('image', TextType::class)
             ->add('type', ChoiceType::class, [

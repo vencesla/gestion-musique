@@ -4,6 +4,12 @@
 .miniature {
     max-width: 80px;
     height: auto;
+    border-radius: 50%;
+}
+.supermini {
+    max-width: 40px;
+    height: auto;
+    border-radius: 50%;
 }
 
 .container {
@@ -11,4 +17,8 @@
 }
 .style-input #style_couleur{
  width: 100%;
+}
+.dropdown-small {
+    min-width: 100px;
+    font-size: 13px;
 }

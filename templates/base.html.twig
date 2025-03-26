@@ -21,18 +21,13 @@
                 </button>
                 <div class="collapse navbar-collapse" id="navbarColor01">
                 <ul class="navbar-nav me-auto">
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Gestion des artistes</a>
-                        <div class="dropdown-menu">
-                            <a class="dropdown-item" href="{{ path('artistes') }}">Liste des artistes</a>
-                        </div>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ path('artistes') }}">Liste des artistes</a>
                     </li>
                     <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Gestion des albums</a>
-                        <div class="dropdown-menu">
-                            <a class="dropdown-item" href="{{path('albums')}}">Liste des albums</a>
-                        </div>
+                        <a class="nav-link" href="{{path('albums')}}">Liste des albums</a>
                     </li>
+                    {% if app.user and is_granted('ROLE_ADMIN') %}
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Administration</a>
                         <div class="dropdown-menu">
@@ -43,6 +38,29 @@
                             <a class="dropdown-item" href="{{path('admin_albums')}}">Gestion des albums</a>
                         </div>
                     </li>
+                    {% endif %}
+                </ul>
+                <ul class="navbar-nav my-auto">
+                    {% if app.user %}
+                    <li class="nav-item">
+                        <img class="supermini" src="{{app.user.avatar}}"  alt="{{app.user.fullName}}">
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">{{app.user.fullName}}</a>
+                        <div class="dropdown-menu dropdown-menu-right dropdown-small">
+                            <a class="dropdown-item" href="#">Mon profil</a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" href="{{path('app_logout')}}">Se déconnecter</a>
+                        </div>
+                    </li>
+                    {% else %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{path('app_login')}}">Se connecter</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{path('app_register')}}">S'inscrire</a>
+                    </li>
+                    {% endif %}
                 </ul>
                 </div>
             </div>
@@ -61,6 +79,7 @@
         </div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ckeditor/4.19.1/ckeditor.js"></script>
     {% block javascripts %}
     {% endblock %}
     </body>
