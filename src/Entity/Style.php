@@ -3,8 +3,10 @@
 namespace App\Entity;
 
 use App\Repository\StyleRepository;
+use DateTimeImmutable;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\ORM\Event\PreUpdateEventArgs;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -18,6 +20,7 @@ use Symfony\Component\Validator\Constraints as Assert;
     fields: ['couleur'],
     message:"Cette coulleur est déjà associée à un style.",
 )]
+#[ORM\HasLifecycleCallbacks()]
 class Style
 {
     #[ORM\Id]
@@ -41,6 +44,12 @@ class Style
 
     #[ORM\ManyToMany(targetEntity: Album::class, inversedBy: 'styles')]
     private Collection $albums;
+
+    #[ORM\Column(nullable: true)]
+    private ?\DateTimeImmutable $createdAt = null;
+
+    #[ORM\Column(nullable: true)]
+    private ?\DateTimeImmutable $updatedAt = null;
 
     public function __construct()
     {
@@ -105,4 +114,46 @@ class Style
 
         return $this;
     }
+
+    public function getCreatedAt(): ?\DateTimeImmutable
+    {
+        return $this->createdAt;
+    }
+
+    public function setCreatedAt(?\DateTimeImmutable $createdAt): static
+    {
+        $this->createdAt = $createdAt;
+
+        return $this;
+    }
+
+    public function getUpdatedAt(): ?\DateTimeImmutable
+    {
+        return $this->updatedAt;
+    }
+
+    public function setUpdatedAt(?\DateTimeImmutable $updatedAt): static
+    {
+        $this->updatedAt = $updatedAt;
+
+        return $this;
+    }
+
+    #[ORM\PrePersist]
+    public function setAllDate():void
+    {
+        $this->createdAt = new \DateTimeImmutable;
+        $this->updatedAt = new \DateTimeImmutable();
+    }
+
+     #[ORM\PreUpdate]
+     /**
+      * première méthode pour appeler un événement
+      * @param \Doctrine\ORM\Event\PreUpdateEventArgs $args
+      * @return void
+      */
+     public function changeUpdateValue():void
+     {
+         $this->updatedAt = new \DateTimeImmutable();
+     }
 }

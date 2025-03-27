@@ -55,7 +55,7 @@ class Album
     #[Assert\Count(min:1, minMessage: "Veillez sectionner un style où plus")]
     private Collection $styles;
 
-    #[ORM\Column]
+    #[ORM\Column(nullable:true)]
     private ?\DateTimeImmutable $updatedAt = null;
 
     public function __construct()
