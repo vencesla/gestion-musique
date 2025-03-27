@@ -33,7 +33,7 @@ class AppFixtures extends Fixture
                     ->setNom($value[1])
                     ->setDescription("<p>" .join("</p><p>",$faker->paragraphs(5)). "</p>")
                     ->setSite($faker->url())
-                    ->setImage('https://randomuser.me/api/portraits/med/'.$faker->randomElement($genres)."/" .mt_rand(1,99).".jpg")
+                    ->setImage("user.png")
                     ->setType($value[2]);
             $manager->persist($artiste);
             $this->addReference("artiste".$artiste->getId(), $artiste);

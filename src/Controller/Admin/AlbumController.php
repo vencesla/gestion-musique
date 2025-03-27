@@ -7,6 +7,8 @@ use App\Form\AlbumType;
 use App\Form\FiltreAlbumType;
 use App\Model\FiltreAlbum;
 use App\Repository\AlbumRepository;
+use App\Service\UploadFichierInterface;
+use App\Service\UploadImage;
 use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -35,7 +37,7 @@ class AlbumController extends AbstractController
 
     #[Route('/admin/album/modif/{id}', name: 'admin_album_modif', methods:['GET', 'POST'])]
     #[Route('/admin/album/ajout', name: 'admin_album_ajout', methods:['GET', 'POST'])]
-    public function ajoutModifAlbum(int|null $id, AlbumRepository $repo, Request $request, EntityManagerInterface $manager): Response
+    public function ajoutModifAlbum(int|null $id, AlbumRepository $repo, Request $request,UploadFichierInterface $fichierImageAlbum, EntityManagerInterface $manager): Response
     {
         if($id == null){
             $album = new Album();
@@ -49,18 +51,13 @@ class AlbumController extends AbstractController
         if($form->isSubmitted() && $form->isValid())
         {
              // On récupère l'image sélectionnée
-            $fichierImage = $form->get('imageFile')->getData();
-            if($fichierImage != null){
-                // On supprime l'ancien fichier
-                if($album->getImage() != 'pochettevierge.png'){
-                    \unlink(filename: $this->getParameter('imagesAlbumsDestination' ).$album->getImage());
+             if($form->get('imageFile')->getData() != null){
+                $nouveauNomImage= $fichierImageAlbum->enregistrerImage($form->get('imageFile')->getData(),$album->getImage());
+                if($nouveauNomImage != null) {
+                    $album->setImage($nouveauNomImage);
                 }
-                // On crée le nom du nouveau fichier
-                $fichier = md5(\uniqid()).".".$fichierImage->getExtension();
-                // On déplace le fichier dans le dossier public
-                $fichierImage->move($this->getParameter('imagesAlbumsDestination'), $fichier);
-                $album->setImage($fichier);
-            }
+             }
+            
             $manager->persist($album);
             $manager->flush();
             $this->addFlash('success', "L'album a bien été $mode");

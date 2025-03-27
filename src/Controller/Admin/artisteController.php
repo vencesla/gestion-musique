@@ -6,6 +6,7 @@ use App\Form\ArtisteType;
 use Proxies\__CG__\App\Entity\Artiste;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use App\Repository\ArtisteRepository;
+use App\Service\UploadFichierInterface;
 use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -29,7 +30,7 @@ class artisteController extends AbstractController
 
     #[Route('/admin/artiste/modif/{id}', name: 'admin_artiste_modif', methods:['GET', 'POST'])]
     #[Route('/admin/artiste/ajout', name: 'admin_artiste_ajout', methods:['GET', 'POST'])]
-    public function ajoutModifArtiste(int $id=null, ArtisteRepository $repo, Request $request, EntityManagerInterface $manager): Response
+    public function ajoutModifArtiste(int|null $id, ArtisteRepository $repo, Request $request, EntityManagerInterface $manager, UploadFichierInterface $fichierImageArtiste): Response
     {
         if($id == null){
             $artiste = new Artiste();
@@ -42,6 +43,13 @@ class artisteController extends AbstractController
         $form->handleRequest($request);
         if($form->isSubmitted() && $form->isValid())
         {
+            // enregistrer le nom de l'image
+            if($form->get('imageFile')->getData() != null){
+                $nouveauNomFichier = $fichierImageArtiste->enregistrerImage($form->get('imageFile')->getData(), $artiste->getImage());
+                if($nouveauNomFichier != null){
+                    $artiste->setImage($nouveauNomFichier);
+                }
+            }
             $manager->persist($artiste);
             $manager->flush();
             $this->addFlash('success', "L'artsite a bien été $mode");

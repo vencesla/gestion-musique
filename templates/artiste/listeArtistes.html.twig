@@ -17,7 +17,7 @@
                             {{nb}}{% if nb > 1 %} albums{% else %} album{% endif %}
                         </a>
                     </h5>
-                    <img class="avatar mx-auto d-block" style="height:auto; width: 150px; display:block;" src="{{artiste.image}}" alt="{{artiste.nom}}">
+                    <img class="avatar mx-auto d-block" style="height:auto; width: 150px; display:block;" src="{{asset('images/artistes/' ~ artiste.image)}}" alt="{{artiste.nom}}">
                 </div>
                 <div class="card-body">
                     <p class="card-text">{{ artiste.description|u.truncate(200, '...')|raw }}</p>

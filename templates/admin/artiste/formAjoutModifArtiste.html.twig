@@ -12,13 +12,25 @@
         d'un artiste</h1>
 {{ form_start(formArtiste, {'attr':{'novalidate':'novalidate'}}) }}
 
-{{form_row(formArtiste.nom)}}
-{{form_row(formArtiste.description)}}
 <div class="row">
-   <div class="col"> {{form_row(formArtiste.site)}} </div>
-    <div class="col">{{form_row(formArtiste.type)}}</div>
-</div>
+    <div class="col-9"> 
+        {{form_row(formArtiste.nom)}}
+        {{form_row(formArtiste.site)}} 
+        {{form_row(formArtiste.type)}}
+    </div>
 {{form_row(formArtiste.image)}}
+    <div class="col-3">
+        <div> 
+            <img id="imageAffichee" src="{{asset("images/artistes/" ~ formArtiste.image.vars.value)}}" alt="" class="rounded max-auto d-block img-thumbnail">
+        </div>
+        <div>
+            {{form_errors(formArtiste.imageFile)}}
+            {{form_row(formArtiste.imageFile, {'id': 'imageFile'})}}
+            <a class="btn btn-primary d-block center" id="chargerPochette"><i class="fas fa-upload"></i> Charger la photo</a>
+        </div>
+    </div>
+</div>
+{{form_row(formArtiste.description)}}
 
 <div class="row">
     <div class="col">
@@ -45,4 +57,5 @@
         });
     });
 </script>
+<script src="{{asset('js/gestionUpload.js')}}" defer></script>
 {% endblock %}

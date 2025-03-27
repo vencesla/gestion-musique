@@ -20,7 +20,7 @@
             {% for artiste in artistes %}
             {% set nb = artiste.albums|length %}
             <tr>
-            <td class="col-1"><img class="miniature avatar mx-auto d-block" style="height:auto; width: 150px; display:block;" src="{{artiste.image}}" alt="{{artiste.nom}}"></td>
+            <td class="col-1"><img class="miniature avatar mx-auto d-block" style="height:auto; width: 150px; display:block;" src="{{asset('images/artistes/' ~ artiste.image)}}" alt="{{artiste.nom}}"></td>
             <td class="col-2">{{artiste.nom}}</td>
             <td class="col-7">
                 <p class="d-flex flex-row">

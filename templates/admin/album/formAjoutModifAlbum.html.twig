@@ -18,7 +18,7 @@
     {% else %}
         Modification
     {% endif %}
-        d'un style</h1>
+        d'un album</h1>
 {{ form_start(formAlbum) }}
 <div class="row">
    <div class="col-8"> 
@@ -33,7 +33,7 @@
         </div>
         <div>
             {{form_errors(formAlbum.imageFile)}}
-            {{form_row(formAlbum.imageFile)}}
+            {{form_row(formAlbum.imageFile, {'id': 'imageFile'})}}
             <a class="btn btn-primary d-block center" id="chargerPochette"><i class="fas fa-upload"></i> Charger la pochette</a>
         </div>
     </div>

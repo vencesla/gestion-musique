@@ -3,7 +3,7 @@ const btnCharger = document.getElementById("chargerPochette");
 btnCharger.addEventListener("click", lanceParcourir, false);
 
 // On récupère le champ d'upload
-const fileupload = document.getElementById("album_imageFile");
+const fileupload = document.getElementById("imageFile");
 fileupload.addEventListener("change", afficheImage, false);
 // On répuère le champ img qui affiche l'image
 const imageAffiche = document.getElementById("imageAffichee")

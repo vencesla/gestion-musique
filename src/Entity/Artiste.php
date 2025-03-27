@@ -12,14 +12,13 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: ArtisteRepository::class)]
 #[UniqueEntity(
-    fields: ['nom'],
-    message:"Le nom de l'artiste est déjà utilisé dans la base.",
+    fields: ['site'],
+    message:"Le nom du site est déjà utilisé dans la base."
 )]
 #[UniqueEntity(
-    fields: ['site'],
-    message:"Le nom du site est déjà utilisé dans la base.",
+    fields: ['nom'],
+    message:"Le nom de l'artiste est déjà utilisé dans la base."
 )]
-
 class Artiste
 {
     #[ORM\Id]
@@ -41,7 +40,7 @@ class Artiste
     #[Assert\NotBlank(message:"La description est obligatoire")]
     #[Assert\Length(
         min: 10,
-        max: 100,
+        max: 500,
         minMessage: "La description doit comporter au minimum {{ limit }}",
         maxMessage: "La description doi comporter aux maximum {{ limit }}"
     )]
