@@ -4,7 +4,15 @@
 
 {% block body %}
  <h1 class="mt-3 text-center text-info">Gestion des albums</h1>
-    <a href="{{ path('admin_album_ajout')}}" class="btn btn-sm btn-success">Ajouter un album</a>
+    <a href="{{ path('admin_album_ajout')}}" class="btn btn-sm btn-success mb-2">Ajouter un album</a>
+    {{form_start(formFiltreAlbum)}}
+    <div class="row">
+        <div class="col">{{form_row(formFiltreAlbum.nom)}}</div>
+        <div class="col">{{form_row(formFiltreAlbum.artiste)}}</div>
+        <div class="col">{{form_row(formFiltreAlbum.styles)}}</div>
+    </div>
+    <button class="btn btn-warning text-white" type="submit">Rechercher</button>
+    {{form_end(formFiltreAlbum)}}
     <hr>
     <div class="row pt-2">
         <table class="table table-hover mx-auto">

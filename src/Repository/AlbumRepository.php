@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Album;
+use App\Model\FiltreAlbum;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 use Doctrine\ORM\Query;
@@ -26,16 +27,35 @@ class AlbumRepository extends ServiceEntityRepository
      * Liste des albums
      * @return Query Returns an array of Album objects
      */
-    public function listeAlbumsComplete(): ?Query
+
+    public function listeAlbumsCompletePagination(FiltreAlbum $filtre=null): ?Query
     {
-        return $this->createQueryBuilder('a')
+        $query = $this->createQueryBuilder('a')
             ->select('a','s', 'art', 'm')
             ->leftJoin('a.styles', 's')
             ->leftJoin('a.artiste', 'art')
             ->leftJoin('a.morceaux', 'm')
-            ->orderBy('a.nom', 'ASC')
-            ->getQuery()
-        ;
+            ->orderBy('a.nom', 'ASC');
+            if(!empty($filtre->nom)) {
+                $query->andWhere('a.nom like :nomRecherche')
+                ->setParameter('nomRecherche', "%{$filtre->nom}%");
+            }
+            if(!empty($filtre->artiste)) {
+                $query->andWhere('a.artiste =:artisteRecherche')
+                ->setParameter('artisteRecherche', $filtre->artiste);
+            }
+            if(!empty($filtre->styles) && $filtre->styles->count() > 0) {
+                $conditions=[];
+                foreach($filtre->styles as $key => $style){
+                    $conditions[] = $query->expr()->isMemberOf(":styleRecherche$key", "a.styles");
+                    $query->setParameter("styleRecherche$key", $style);
+                }
+                $blocConditionsOr = $query->expr()->orX()->addMultiple($conditions);
+                $query->andWhere($blocConditionsOr);
+            }
+            
+            return $query->getQuery();
+        
     }
 
 //    public function findOneBySomeField($value): ?Album
