@@ -62,6 +62,7 @@ class Artiste
     public function __construct()
     {
         $this->albums = new ArrayCollection();
+        $this->setImage("user.png");
     }
 
     public function getId(): ?int

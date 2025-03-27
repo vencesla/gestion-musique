@@ -2,8 +2,8 @@
 
 namespace App\Controller\Admin;
 
+use App\Entity\Artiste;
 use App\Form\ArtisteType;
-use Proxies\__CG__\App\Entity\Artiste;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use App\Repository\ArtisteRepository;
 use App\Service\UploadFichierInterface;
@@ -33,8 +33,8 @@ class artisteController extends AbstractController
     public function ajoutModifArtiste(int|null $id, ArtisteRepository $repo, Request $request, EntityManagerInterface $manager, UploadFichierInterface $fichierImageArtiste): Response
     {
         if($id == null){
-            $artiste = new Artiste();
             $mode = "ajouté";
+            $artiste = new Artiste();
         }else{
             $mode = "modifié";
             $artiste = $repo->find($id);

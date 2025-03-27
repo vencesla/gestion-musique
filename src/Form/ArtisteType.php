@@ -6,6 +6,7 @@ use App\Entity\Artiste;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
+use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -50,11 +51,7 @@ class ArtisteType extends AbstractType
                         ])
                 ]
             ])
-            ->add('image', TextType::class,[
-                'row_attr' => [
-                    'class' => "d-none"
-                ]
-            ])
+            ->add('image', HiddenType::class)
             ->add('type', ChoiceType::class, [
                 "choices" =>[
                     "solo" => 0,
