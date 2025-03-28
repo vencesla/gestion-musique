@@ -3,11 +3,14 @@
 namespace App\Entity;
 
 use App\Repository\MorceauRepository;
+use App\Traits\MajdateTrait;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: MorceauRepository::class)]
+#[ORM\HasLifecycleCallbacks()]
 class Morceau
 {
+    use MajdateTrait;
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]

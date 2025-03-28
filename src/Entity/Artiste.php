@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\ArtisteRepository;
+use App\Traits\MajdateTrait;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -19,8 +20,10 @@ use Symfony\Component\Validator\Constraints as Assert;
     fields: ['nom'],
     message:"Le nom de l'artiste est déjà utilisé dans la base."
 )]
+#[ORM\HasLifecycleCallbacks()]
 class Artiste
 {
+    use MajdateTrait;
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]

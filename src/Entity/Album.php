@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\AlbumRepository;
+use App\Traits\MajdateTrait;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -14,8 +15,10 @@ use Symfony\Component\Validator\Constraints as Assert;
     fields: ['nom', 'artiste'],
     message: "Il ne peut exister deux albums de même nom"
 )]
+#[ORM\HasLifecycleCallbacks()]
 class Album
 {
+    use MajdateTrait;
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]

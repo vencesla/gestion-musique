@@ -2,13 +2,12 @@
 
 namespace App\Subscriber;
 
-use App\Entity\Style;
 use Doctrine\Bundle\DoctrineBundle\EventSubscriber\EventSubscriberInterface;
 use Doctrine\ORM\Events;
 use Doctrine\Persistence\Event\LifecycleEventArgs;
 
 
-class LifecycleStyleSubscriber implements EventSubscriberInterface
+class LifecycleMajSubscriber implements EventSubscriberInterface
 {
     public function getSubscribedEvents():array
     {
@@ -20,9 +19,9 @@ class LifecycleStyleSubscriber implements EventSubscriberInterface
 
     public function preUpdate(LifecycleEventArgs $args){
         $entity = $args->getObject();
-        if(!$entity instanceof Style){
+        if(!property_exists($entity, 'updatedAt')){
             return;
         }
-        $entity->changeUpdateValue();
+        $entity->setUpdatedAt(new \DateTimeImmutable());
     }
 }
